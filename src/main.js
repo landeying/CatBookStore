@@ -1,25 +1,23 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import {Header,Swipe,SwipeItem,Tabbar,TabItem, Navbar, Button} from 'mint-ui'
+import MintUI from 'mint-ui'
 
-
-import'mint-ui/lib/style.css'
+import 'mint-ui/lib/style.css'
+import 'mint-ui/lib/mint-ui.common.js'
 Vue.config.productionTip = false
 import './lib/mui/css/mui.css'
 import './lib/mui/css/icons-extra.css'
 
 
-Vue.component(Header.name,Header)
-Vue.component(Swipe.name,Swipe)
-Vue.component(SwipeItem.name,SwipeItem)
-Vue.component(Tabbar.name,Tabbar)
-Vue.component(TabItem.name,TabItem)
-Vue.component(Navbar.name, Navbar);
-Vue.component(Button.name, Button);
+Vue.use(MintUI)
 
-import VueResource from "vue-resource"
-Vue.use(VueResource)
+import VueResource from "vue-resource";
+Vue.use(VueResource);
+
+Vue.http.options.root="http://127.0.0.1:3000/"
+ 
+
 new Vue({
   router,
   render: h => h(App)
