@@ -17,7 +17,6 @@
         methods:{
              getImge(){                
                 this.$http.get("imagelist").then(result=>{
-					console.log(result)
                     this.list=result.body
                 })
             }

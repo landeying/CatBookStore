@@ -1,16 +1,22 @@
 <template>
     <div class="app-channel">
+        <Header></Header>
         <div class="channel-title">
             <span class="channel-all">全部频道</span>
             <div>
                 <span>切换频道</span>
-                <span>编辑</span>
+                <span class="edit" :style="styleObj" @click="edit">编辑</span>
+                <span class="accomplish" :style="style" @click="edit">完成</span>
             </div>
         </div>
         <div class="channel-zapping">
             <ul>
-                <li v-for="(items,i) in channellist">
-                    <mt-button size="small" v-text="items" @click="change(i)"  :class="item==i?changeColor:''"></mt-button>
+                <li>
+                    <mt-button size="small">精选</mt-button>
+                </li>
+                <li v-for="(items,i) in channellist"  v-dragging="{item:items,list:channellist,group:'items'}" :key="items.text">
+                    <mt-button size="small" v-text="items.text" @click="change(i)"  :class="item==i?changeColor:''"></mt-button>
+                    <div class="del" :style="style"><span @click="del(i)">x</span></div>
                 </li>
             </ul>
         </div>
@@ -19,8 +25,8 @@
             <span class="more">点击添加更多频道</span>
             <div class="channel-zapping">
             <ul>
-                <li v-for="item in morechannel">
-                    <mt-button size="small" v-text="item"></mt-button>
+                <li v-for="(item,i) in moreAdd" :key="i">
+                    <mt-button size="small" v-text="item.text" @click="add(i)"></mt-button>
                 </li>
             </ul>
         </div>
@@ -28,17 +34,37 @@
     </div>
 </template>
 <script>
+    import Header from '../components/header.vue'
     export default{
         data(){
             return {
                 channellist:[
-                    "精选","漫画","女生","男生","出版","听书","积木学院","免费","虚构书店","板栗"
+                    {text:"漫画"},
+                    {text:"女生"},
+                    {text:"男生"},
+                    {text:"出版"},
+                    {text:"听书"},
+                    {text:"积木学院"},
+                    {text:"免费"},
+                    {text:"虚构书店"},
+                    {text:"板栗"},
                 ],
-                morechannel:["VIP","大神","悬疑灵异","课外书"],
+                moreAdd:[ 
+                    {text:"VIP"},
+                    {text:"大神"},
+                    {text:"悬疑灵异"},
+                    {text:"课外书"},
+                ],
                 changeColor:{
                     color:true
                 },
-                item:""
+                item:"",
+                style:{
+                    display:"none"
+                },
+                styleObj:{
+                    display:"block"
+                }
             }
         },
         methods:{
@@ -50,25 +76,55 @@
                     }
                     continue
                     console.log(this.item)
-                }
-                
-                
+                }                
                 /*document.querySelectorAll("div.channel-zapping ul li")[i].firstElementChild.style.color="red";*/
+            },
+            edit(){
+               if(this.style.display=="none"){
+                    this.style.display = "block"
+                    this.styleObj.display = "none"
+                }else if(this.styleObj.display = "none"){
+                    this.style.display = "none"
+                    this.styleObj.display = "block"
+                }
+            },
+            del(i){
+                var del=this.channellist.splice(i,1)
+                this.moreAdd.push(del[0])
+            },
+            add(item){
+                for(var i=0;i<this.moreAdd.length;i++){
+                    if(item==i){
+                         console.log(this.moreAdd[i])
+                        this.channellist.push(this.moreAdd[i])
+                        this.moreAdd.splice(i,1)
+                    } 
+                    continue
+                } 
             }
         },
+        mounted() {
+                this.$dragging.$on('dragged', ({ value }) => {
+                console.log(value.item)
+                console.log(value.list)
+                console.log(value.group)
+            })
+        },
+        components:{
+            Header
+        }
     }
 </script>
 <style>
     .app-channel{
         height:100%;
         padding-top:50px;
-        margin:20px;
+        margin:0 20px;
     }
     li{
         list-style:none;
         float:left;
         margin:10px;
-        
     }
     ul{
         overflow:hidden;
@@ -77,7 +133,7 @@
     }
     .channel-title>.channel-all{
         display:block;
-        margin-bottom:10px;
+        margin-bottom:20px;
     }
     .channel-title>div{
         display:flex;
@@ -97,7 +153,26 @@
         font-size:14px;
         color:#666
     }
-    .channel-title>div>span:last-child{
+    .channel-title>div>span.edit,.channel-title>div>span.accomplish{
         color:#489ee7
+    }
+    .hidden{
+        display:none;
+    }
+    .channel-zapping>ul>li>div.del{
+        position:relative;
+        top:-40px;
+        right:-60px;;
+        line-height:16px;
+        text-align:center;
+        color:#fff;
+        font-size:14px;
+        width:16px;
+        height:16px;
+        border-radius:100%;
+        background:#ddd;
+    }
+    .channel-zapping>ul{
+        padding-bottom:50px;
     }
 </style>

@@ -1,5 +1,8 @@
 <template>
     <div class="app-login">
+        <mt-header fixed title="猫咪书屋">			    
+            <mt-button icon="back" slot="left"></mt-button>
+		</mt-header>
         <form>
             <div>用户登录</div>
             <input type="text" id="uname" v-model="unameval" placeholder="用户名"><br>
@@ -9,7 +12,7 @@
     </div>
 </template>
 <script>
-import {Toast} from "mint-ui"
+    import {Toast} from "mint-ui"
     export default{
         data(){
             return {
@@ -63,5 +66,9 @@ html,body{
     border-radius:5px;
     font-size:14px;
     background:#c11;
+}
+.app-login .mint-header{
+	background-color:#eee;
+    color:#555;
 }
 </style>
