@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
 		<!--顶部导航-->	
-        <router-view :key="$route.params"></router-view>
+        <router-view :key="$route.path"></router-view>
             <!--底部菜单栏--> 
         <footer class="footer">
             <mt-tabbar fixed>
