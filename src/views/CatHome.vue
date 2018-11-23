@@ -34,7 +34,6 @@
 				this.fid = fid;
 				this.$router.push("/chome/"+fid);
 				console.log(this.fid)
-				location.reload();
 			}
         },
         created(){
